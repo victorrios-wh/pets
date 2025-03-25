@@ -1,0 +1,51 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <label for="{{ form.nombre.name }}">{{ form.nombre.label }}</label>
+                    {{ form.nombre }}
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <label for="{{ form.sexo.name }}">{{ form.sexo.label }}</label>
+                    {{ form.sexo }}
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <label for="{{ form.edad_aproximada.name }}">{{ form.edad_aproximada.label }}</label>
+                    {{ form.edad_aproximada }}
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <label for="{{ form.fecha_rescate.name }}">{{ form.fecha_rescate.label }}</label>
+                    {{ form.fecha_rescate }}
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <label for="{{ form.persona.name }}">{{ form.persona.label }}</label>
+                    {{ form.persona }}
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    <label for="{{ form.vacuna.name }}">{{ form.vacuna.label }}</label>
+                    {{ form.vacuna }}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8 col-md-offset-2">
+            <div class="form-group">
+                <button class="btn btn-primary" type="submit">Guardar</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
