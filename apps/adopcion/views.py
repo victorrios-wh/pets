@@ -4,6 +4,7 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from .models import Persona, Solicitud
 from .forms import PersonaForm, SolicitudForm
 from django.core.urlresolvers import reverse_lazy
+from django.contrib import messages
 
 # Create your views here.
 class SolicitudList(ListView):
@@ -41,6 +42,7 @@ class SolicitudCreate(CreateView):
             solicitud = form.save(commit=False)
             solicitud.persona = form2.save()
             solicitud.save()
+            messages.success(self.request, 'Solicitud de adopcion creada exitosamente')
             return HttpResponseRedirect(self.get_success_url())
         else:
             return self.render_to_response(self.get_context_data(form=form, form2=form2))
@@ -78,6 +80,7 @@ class SolicitudUpdate(UpdateView):
         if form.is_valid() and form2.is_valid():
             form.save()
             form2.save()
+            messages.success(self.request, 'Solicitud de adopcion editada exitosamente')
             return HttpResponseRedirect(self.get_success_url())
         else:
             return HttpResponseRedirect(self.get_success_url())
@@ -86,3 +89,7 @@ class SolicitudDelete(DeleteView):
     model = Solicitud
     template_name = 'adopcion/solicitud_delete.html'
     success_url = reverse_lazy('adopcion:solicitud_listar')
+
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Solicitud de adopcion eliminada exitosamente')
+        return super().delete(request, *args, **kwargs)
