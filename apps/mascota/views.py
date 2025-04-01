@@ -12,10 +12,10 @@ def mascota_view(request):
         form = MascotaForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('mascota:mascota_listar')
+            messages.success(request, 'Mascota registrada exitosamente')
+            return redirect('mascota:mascota_listar_func')
     else:
         form = MascotaForm()
-
     
     contexto = {
         'title': 'Registrar mascota',
@@ -28,7 +28,8 @@ def mascota_list(request):
     
     contexto = {
         'title': 'Lista de mascotas',
-        'mascotas': mascotas
+        'origin': 'func',
+        'object_list': mascotas
     }
     return render(request, 'mascota/mascota_list.html', contexto)
 
@@ -42,7 +43,8 @@ def mascota_edit(request, id_mascota):
             form = MascotaForm(request.POST, instance=mascota)
             if form.is_valid():
                 form.save()
-            return redirect('mascota:mascota_listar')
+                messages.success(request, 'Mascota editada exitosamente')
+                return redirect('mascota:mascota_listar_func')
     else:
         return redirect('home')
     
@@ -58,13 +60,15 @@ def mascota_delete(request, id_mascota):
     if mascota:
         if request.method == 'POST':
             mascota.delete()
-            return redirect('mascota:mascota_listar')
+            messages.success(request, 'Mascota eliminada exitosamente')
+            return redirect('mascota:mascota_listar_func')
     else:
         return redirect('home')
     
     contexto = {
         'title': 'Editar mascota',
-        'mascota': mascota
+        'origin': 'func',
+        'object': mascota
     }
     return render(request, 'mascota/mascota_delete.html', contexto)
 
