@@ -27,8 +27,8 @@
                         <td>{{ mascota.fecha_rescate }}</td>
                         <td>{{ mascota.persona }}</td>
                         <td>
-                            <a class="btn btn-primary" href="{% url 'mascota:mascota_editar' mascota.id %}">Editar</a>
-                            <a class="btn btn-danger" href="{% url 'mascota:mascota_eliminar' mascota.id %}">Eliminar</a>
+                            <a class="btn btn-primary" href="{% if origin == 'func' %}{% url 'mascota:mascota_editar_func' mascota.id %}{% else %}{% url 'mascota:mascota_editar' mascota.id %}{% endif %}">Editar</a>
+                            <a class="btn btn-danger" href="{% if origin == 'func' %}{% url 'mascota:mascota_eliminar_func' mascota.id %}{% else %}{% url 'mascota:mascota_eliminar' mascota.id %}{% endif %}">Eliminar</a>
                         </td>
                     </tr>
                 {% endfor %}

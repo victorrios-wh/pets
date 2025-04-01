@@ -17,6 +17,7 @@
 <body>
     <div class="container">
 
+        {% include 'base/messages.html' %}
         {% block navbar %}
         <div class="bs-docs-section clearfix">
             <div class="row">
@@ -25,13 +26,21 @@
                         <nav class="navbar navbar-default">
                             <div class="container-fluid">
                                 <div class="navbar-header">
-                                    <a class="navbar-brand" href="{% url 'mascota:index' %}">Home</a>
+                                    <a class="navbar-brand" href="{% url 'home' %}">Home</a>
                                 </div>
                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                     <ul class="nav navbar-nav">
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-expanded="false">Mascotas<span class="caret"></span></a>
+                                                aria-expanded="false">Mascotas FUNC<span class="caret"></span></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="{% url 'mascota:mascota_crear_func' %}">Registrar</a></li>
+                                                <li><a href="{% url 'mascota:mascota_listar_func' %}">Listar</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                                aria-expanded="false">Mascotas CBV<span class="caret"></span></a>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li><a href="{% url 'mascota:mascota_crear' %}">Registrar</a></li>
                                                 <li><a href="{% url 'mascota:mascota_listar' %}">Listar</a></li>
@@ -39,14 +48,22 @@
                                         </li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                                                aria-expanded="false">Adopciones<span class="caret"></span></a>
+                                                aria-expanded="false">Adopciones FUNC<span class="caret"></span></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="{% url 'adopcion:solicitud_crear_func' %}">Solicitar</a></li>
+                                                <li><a href="{% url 'adopcion:solicitud_listar_func' %}">Listar solicitudes</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                                aria-expanded="false">Adopciones CBV<span class="caret"></span></a>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li><a href="{% url 'adopcion:solicitud_crear' %}">Solicitar</a></li>
                                                 <li><a href="{% url 'adopcion:solicitud_listar' %}">Listar solicitudes</a></li>
                                             </ul>
                                         </li>
                                     </ul>
-                                    <ul class="nav navbar-nav navbar-right">
+                                    <!-- <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                                 aria-expanded="false">Opciones<span class="caret"></span></a>
@@ -54,7 +71,7 @@
                                                 <li><a href="{#}">Salir</a></li>
                                             </ul>
                                         </li>
-                                    </ul>
+                                    </ul> -->
                                 </div>
                             </div>
                         </nav>

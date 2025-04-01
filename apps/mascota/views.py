@@ -1,3 +1,4 @@
+from django.contrib import messages
 from django.shortcuts import redirect, render
 from .forms import MascotaForm
 from .models import Mascota
@@ -5,22 +6,16 @@ from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.core.urlresolvers import reverse_lazy
 
 # Create your views here.
-def index(request):
-    contexto = {
-        'title': 'Mascotas'
-    }
-    return render(request, 'mascota/index.html', contexto)
-
 def mascota_view(request):
 
     if request.method == 'POST':
         form = MascotaForm(request.POST)
         if form.is_valid():
             form.save()
-        return redirect('mascota:mascota_listar')
+            messages.success(request, 'Mascota registrada exitosamente')
+            return redirect('mascota:mascota_listar_func')
     else:
         form = MascotaForm()
-
     
     contexto = {
         'title': 'Registrar mascota',
@@ -33,7 +28,8 @@ def mascota_list(request):
     
     contexto = {
         'title': 'Lista de mascotas',
-        'mascotas': mascotas
+        'origin': 'func',
+        'object_list': mascotas
     }
     return render(request, 'mascota/mascota_list.html', contexto)
 
@@ -47,9 +43,10 @@ def mascota_edit(request, id_mascota):
             form = MascotaForm(request.POST, instance=mascota)
             if form.is_valid():
                 form.save()
-            return redirect('mascota:mascota_listar')
+                messages.success(request, 'Mascota editada exitosamente')
+                return redirect('mascota:mascota_listar_func')
     else:
-        return redirect('mascota:index')
+        return redirect('home')
     
     contexto = {
         'title': 'Editar mascota',
@@ -63,13 +60,15 @@ def mascota_delete(request, id_mascota):
     if mascota:
         if request.method == 'POST':
             mascota.delete()
-            return redirect('mascota:mascota_listar')
+            messages.success(request, 'Mascota eliminada exitosamente')
+            return redirect('mascota:mascota_listar_func')
     else:
-        return redirect('mascota:index')
+        return redirect('home')
     
     contexto = {
-        'title': 'Editar mascota',
-        'mascota': mascota
+        'title': 'Eliminar mascota',
+        'origin': 'func',
+        'object': mascota
     }
     return render(request, 'mascota/mascota_delete.html', contexto)
 
@@ -88,6 +87,11 @@ class MascotaCreate(CreateView):
     template_name = 'mascota/mascota_form.html'
     success_url = reverse_lazy('mascota:mascota_listar')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        messages.success(self.request, 'Mascota registrada exitosamente')
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Registrar mascota'
@@ -99,6 +103,11 @@ class MascotaUpdate(UpdateView):
     template_name = 'mascota/mascota_form.html'
     success_url = reverse_lazy('mascota:mascota_listar')
 
+    def form_valid(self, form):
+        self.object = form.save()
+        messages.success(self.request, 'Mascota editada exitosamente')
+        return super().form_valid(form)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Editar mascota'
@@ -109,7 +118,11 @@ class MascotaDelete(DeleteView):
     template_name = 'mascota/mascota_delete.html'
     success_url = reverse_lazy('mascota:mascota_listar')
 
+    def delete(self, request, *args, **kwargs):
+        messages.success(self.request, 'Mascota eliminada exitosamente')
+        return super().delete(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Editar mascota'
+        context['title'] = 'Eliminar mascota'
         return context

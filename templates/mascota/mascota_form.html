@@ -7,36 +7,42 @@
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
+                    {{ form.nombre.errors }}
                     <label for="{{ form.nombre.name }}">{{ form.nombre.label }}</label>
                     {{ form.nombre }}
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
+                    {{ form.sexo.errors }}
                     <label for="{{ form.sexo.name }}">{{ form.sexo.label }}</label>
                     {{ form.sexo }}
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
+                    {{ form.edad_aproximada.errors }}
                     <label for="{{ form.edad_aproximada.name }}">{{ form.edad_aproximada.label }}</label>
                     {{ form.edad_aproximada }}
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
+                    {{ form.fecha_rescate.errors }}
                     <label for="{{ form.fecha_rescate.name }}">{{ form.fecha_rescate.label }}</label>
                     {{ form.fecha_rescate }}
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
+                    {{ form.persona.errors }}
                     <label for="{{ form.persona.name }}">{{ form.persona.label }}</label>
                     {{ form.persona }}
                 </div>
             </div>
             <div class="col-md-8 col-md-offset-2">
                 <div class="form-group">
+                    {{ form.vacuna.errors }}
                     <label for="{{ form.vacuna.name }}">{{ form.vacuna.label }}</label>
                     {{ form.vacuna }}
                 </div>
