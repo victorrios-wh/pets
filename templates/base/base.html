@@ -48,6 +48,14 @@
                                         </li>
                                         <li class="dropdown">
                                             <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                                                aria-expanded="false">Adopciones FUNC<span class="caret"></span></a>
+                                            <ul class="dropdown-menu" role="menu">
+                                                <li><a href="{% url 'adopcion:solicitud_crear_func' %}">Solicitar</a></li>
+                                                <li><a href="{% url 'adopcion:solicitud_listar_func' %}">Listar solicitudes</a></li>
+                                            </ul>
+                                        </li>
+                                        <li class="dropdown">
+                                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                                                 aria-expanded="false">Adopciones CBV<span class="caret"></span></a>
                                             <ul class="dropdown-menu" role="menu">
                                                 <li><a href="{% url 'adopcion:solicitud_crear' %}">Solicitar</a></li>

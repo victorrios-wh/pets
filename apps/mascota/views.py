@@ -66,7 +66,7 @@ def mascota_delete(request, id_mascota):
         return redirect('home')
     
     contexto = {
-        'title': 'Editar mascota',
+        'title': 'Eliminar mascota',
         'origin': 'func',
         'object': mascota
     }
@@ -124,5 +124,5 @@ class MascotaDelete(DeleteView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['title'] = 'Editar mascota'
+        context['title'] = 'Eliminar mascota'
         return context
