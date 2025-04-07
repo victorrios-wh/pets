@@ -7,6 +7,7 @@
             {% if object_list %}
                 <tr>
                     <td>#</td>
+                    <td>Foto</td>
                     <td>Nombre</td>
                     <td>Sexo</td>
                     <td>Edad</td>
@@ -21,6 +22,11 @@
                 {% for mascota in object_list %}
                     <tr>
                         <td>{{ mascota.id }}</td>
+                        <td>
+                            {% if mascota.foto %}
+                                <img src="{{ mascota.foto.url }}" alt="Foto de mascota" width="72" height="72">
+                            {% endif %}
+                        </td>
                         <td>{{ mascota.nombre }}</td>
                         <td>{{ mascota.sexo }}</td>
                         <td>{{ mascota.edad_aproximada }}</td>

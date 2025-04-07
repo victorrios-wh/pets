@@ -5,6 +5,7 @@ from .models import Persona, Solicitud
 from .forms import PersonaForm, SolicitudForm
 from django.core.urlresolvers import reverse_lazy
 from django.contrib import messages
+from refugio.forms import DivErrorList
 
 # Create your views here.
 class SolicitudList(ListView):
@@ -36,8 +37,8 @@ class SolicitudCreate(CreateView):
     
     def post(self, request, *args, **kwargs):
         self.object = self.get_object
-        form = self.form_class(request.POST)
-        form2 = self.second_form_class(request.POST)
+        form = self.form_class(request.POST, error_class=DivErrorList)
+        form2 = self.second_form_class(request.POST, error_class=DivErrorList)
         if form.is_valid() and form2.is_valid():
             solicitud = form.save(commit=False)
             solicitud.persona = form2.save()
@@ -75,8 +76,8 @@ class SolicitudUpdate(UpdateView):
         id_solicitud = kwargs['pk']
         solicitud = self.model.objects.filter(id=id_solicitud).first()
         persona = self.second_model.objects.filter(id=solicitud.persona_id).first()
-        form = self.form_class(request.POST, instance=solicitud)
-        form2 = self.second_form_class(request.POST, instance=persona)
+        form = self.form_class(request.POST, instance=solicitud, error_class=DivErrorList)
+        form2 = self.second_form_class(request.POST, instance=persona, error_class=DivErrorList)
         if form.is_valid() and form2.is_valid():
             form.save()
             form2.save()
@@ -91,7 +92,7 @@ class SolicitudDelete(DeleteView):
     success_url = reverse_lazy('adopcion:solicitud_listar')
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, 'Solicitud de adopcion eliminada exitosamente')
+        messages.error(self.request, 'Solicitud de adopcion eliminada exitosamente')
         return super().delete(request, *args, **kwargs)
     
     def get_context_data(self, **kwargs):
@@ -110,8 +111,8 @@ def listar_solicitudes(request):
 
 def crear_solicitud(request):
     if request.method == 'POST':
-        form = SolicitudForm(request.POST)
-        form2 = PersonaForm(request.POST)
+        form = SolicitudForm(request.POST, error_class=DivErrorList)
+        form2 = PersonaForm(request.POST, error_class=DivErrorList)
         if form.is_valid() and form2.is_valid():
             solicitud = form.save(commit=False)
             solicitud.persona = form2.save()
@@ -137,8 +138,8 @@ def editar_solicitud(request, id_solicitud):
             form = SolicitudForm(instance=solicitud)
             form2 = PersonaForm(instance=persona)
         else:
-            form = SolicitudForm(request.POST, instance=solicitud)
-            form2 = PersonaForm(request.POST, instance=persona)
+            form = SolicitudForm(request.POST, instance=solicitud, error_class=DivErrorList)
+            form2 = PersonaForm(request.POST, instance=persona, error_class=DivErrorList)
             if form.is_valid() and form2.is_valid():
                 solicitud = form.save(commit=False)
                 solicitud.persona = form2.save()
@@ -160,7 +161,7 @@ def eliminar_solicitud(request, id_solicitud):
     if solicitud:
         if request.method == 'POST':
             solicitud.delete()
-            messages.success(request, 'Solicitud eliminada exitosamente')
+            messages.error(request, 'Solicitud eliminada exitosamente')
             return redirect('adopcion:solicitud_listar_func')
     else:
         return redirect('home')

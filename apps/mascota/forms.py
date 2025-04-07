@@ -12,7 +12,8 @@ class MascotaForm(forms.ModelForm):
             'edad_aproximada',
             'fecha_rescate',
             'persona',
-            'vacuna'
+            'vacuna',
+            'foto'
         ]
         labels = {
             'nombre': 'Nombre',
@@ -20,7 +21,8 @@ class MascotaForm(forms.ModelForm):
             'edad_aproximada': 'Edad aproximada',
             'fecha_rescate': 'Fecha de rescate',
             'persona': 'Adoptante',
-            'vacuna': 'Vacunas'
+            'vacuna': 'Vacunas',
+            'foto': 'Foto'
         }
 
         widgets = {

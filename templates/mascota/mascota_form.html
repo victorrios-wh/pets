@@ -2,7 +2,7 @@
 
 {% block content %}
 
-    <form method="post">
+    <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <div class="row">
             <div class="col-md-8 col-md-offset-2">
@@ -45,6 +45,13 @@
                     {{ form.vacuna.errors }}
                     <label for="{{ form.vacuna.name }}">{{ form.vacuna.label }}</label>
                     {{ form.vacuna }}
+                </div>
+            </div>
+            <div class="col-md-8 col-md-offset-2">
+                <div class="form-group">
+                    {{ form.foto.errors }}
+                    <label for="{{ form.foto.name }}">{{ form.foto.label }}</label>
+                    {{ form.foto }}
                 </div>
             </div>
         </div>

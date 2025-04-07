@@ -15,6 +15,7 @@ class Mascota(models.Model):
     fecha_rescate = models.DateField()
     persona = models.ForeignKey(Persona, null=True, blank=True, on_delete=models.CASCADE)
     vacuna = models.ManyToManyField(Vacuna, blank=True)
+    foto = models.ImageField(upload_to='fotos/', blank=True, null=True)
 
     def __str__(self):
         return self.nombre

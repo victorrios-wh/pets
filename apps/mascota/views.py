@@ -4,12 +4,13 @@ from .forms import MascotaForm
 from .models import Mascota
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
 from django.core.urlresolvers import reverse_lazy
+from refugio.forms import DivErrorList
 
 # Create your views here.
 def mascota_view(request):
 
     if request.method == 'POST':
-        form = MascotaForm(request.POST)
+        form = MascotaForm(request.POST, request.FILES, error_class=DivErrorList)
         if form.is_valid():
             form.save()
             messages.success(request, 'Mascota registrada exitosamente')
@@ -40,7 +41,7 @@ def mascota_edit(request, id_mascota):
         if request.method == 'GET':
             form = MascotaForm(instance=mascota)
         else:
-            form = MascotaForm(request.POST, instance=mascota)
+            form = MascotaForm(request.POST, request.FILES, instance=mascota, error_class=DivErrorList)
             if form.is_valid():
                 form.save()
                 messages.success(request, 'Mascota editada exitosamente')
@@ -60,7 +61,7 @@ def mascota_delete(request, id_mascota):
     if mascota:
         if request.method == 'POST':
             mascota.delete()
-            messages.success(request, 'Mascota eliminada exitosamente')
+            messages.error(request, 'Mascota eliminada exitosamente')
             return redirect('mascota:mascota_listar_func')
     else:
         return redirect('home')
@@ -97,6 +98,22 @@ class MascotaCreate(CreateView):
         context['title'] = 'Registrar mascota'
         return context
     
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = {
+            "initial": self.get_initial(),
+            "prefix": self.get_prefix(),
+        }
+        if self.request.method in ("POST", "PUT"):
+            kwargs.update(
+                {
+                    "data": self.request.POST,
+                    "files": self.request.FILES,
+                    "error_class": DivErrorList
+                }
+            )
+        return kwargs
+    
 class MascotaUpdate(UpdateView):
     model = Mascota
     form_class = MascotaForm
@@ -113,13 +130,26 @@ class MascotaUpdate(UpdateView):
         context['title'] = 'Editar mascota'
         return context
     
+    def get_form_kwargs(self):
+        """Return the keyword arguments for instantiating the form."""
+        kwargs = super().get_form_kwargs()
+        if hasattr(self, "object"):
+            kwargs.update({"instance": self.object})
+        if self.request.method in ("POST", "PUT"):
+            kwargs.update(
+                {
+                    "error_class": DivErrorList
+                }
+            )
+        return kwargs
+    
 class MascotaDelete(DeleteView):
     model = Mascota
     template_name = 'mascota/mascota_delete.html'
     success_url = reverse_lazy('mascota:mascota_listar')
 
     def delete(self, request, *args, **kwargs):
-        messages.success(self.request, 'Mascota eliminada exitosamente')
+        messages.error(self.request, 'Mascota eliminada exitosamente')
         return super().delete(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
